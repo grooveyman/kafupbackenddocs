@@ -48,7 +48,7 @@
         }
       }
     },
-    "/api/v1/users/auth/profile/email/{email}": {
+    "/api/v1/users/auth/profile/getuser-by-email?email={email}": {
       "get": {
         "tags": [
           "Users"
