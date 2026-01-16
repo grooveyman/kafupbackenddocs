@@ -48,6 +48,40 @@
         }
       }
     },
+    "/api/v1/users/auth/profile/email/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user by email",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The user email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
     "/api/v1/users/auth/profile": {
       "post": {
         "tags": [
