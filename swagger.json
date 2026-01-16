@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "My API",
+    "title": "Kafup API",
     "version": "1.0.0",
-    "description": "Express + TypeORM API"
+    "description": "This is the official API documentation for the Kafup platform."
   },
   "servers": [
     {
@@ -48,7 +48,7 @@
         }
       }
     },
-    "/api/v1/users/auth/getuser-by-email?email={email}": {
+    "/api/v1/users/auth/getuser-by-email": {
       "get": {
         "tags": [
           "Users"
@@ -56,7 +56,7 @@
         "summary": "Get user by email",
         "parameters": [
           {
-            "in": "path",
+            "in": "query",
             "name": "email",
             "required": true,
             "schema": {
