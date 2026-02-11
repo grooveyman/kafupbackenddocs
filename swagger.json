@@ -11,6 +11,573 @@
     }
   ],
   "paths": {
+    "/api/v1/categories/": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Get all categories",
+        "responses": {
+          "200": {
+            "description": "Successful response with list of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Electronics"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Category for electronic products"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Create a new category",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Electronics"
+                  },
+                  "designercode": {
+                    "type": "string",
+                    "example": "DESIGN001"
+                  }
+                },
+                "required": [
+                  "name",
+                  "designercode"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/designers/register": {
+      "post": {
+        "tags": [
+          "Designers"
+        ],
+        "description": "Create a new designer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "brand_name": {
+                    "type": "string",
+                    "example": "Awesome Designs"
+                  },
+                  "contact_name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "contact_email": {
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                  },
+                  "contact_phone": {
+                    "type": "string",
+                    "example": "+233245678901"
+                  }
+                },
+                "required": [
+                  "brand_name",
+                  "contact_name",
+                  "contact_email",
+                  "contact_phone"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Designer created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Designer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs": {
+      "post": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Create a new design product with variations and images",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Summer Collection Dress"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Beautiful summer dress with African prints"
+                  },
+                  "price": {
+                    "type": "string",
+                    "example": "150.50"
+                  },
+                  "designer_code": {
+                    "type": "string",
+                    "example": "DES001"
+                  },
+                  "cat_code": {
+                    "type": "string",
+                    "example": "CAT001"
+                  },
+                  "collection_code": {
+                    "type": "string",
+                    "example": "COL001"
+                  },
+                  "variations": {
+                    "type": "string",
+                    "example": "[{\"color\":\"red\",\"size\":\"M\",\"quantity\":10,\"bust\":\"85\",\"hip\":\"95\",\"waist\":\"65\",\"neck\":\"35\",\"sleeve\":\"20\",\"gender\":\"female\"}]"
+                  },
+                  "previewimg": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "price",
+                  "designer_code",
+                  "cat_code",
+                  "variations",
+                  "previewimg"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Design created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "product": {
+                      "$ref": "#/components/schemas/Design"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - validation error"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/{id}": {
+      "put": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Update an existing design product",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Design ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "string"
+                  },
+                  "designer_code": {
+                    "type": "string"
+                  },
+                  "cat_code": {
+                    "type": "string"
+                  },
+                  "collection_code": {
+                    "type": "string"
+                  },
+                  "variations": {
+                    "type": "string"
+                  },
+                  "previewimg": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "delImgs": {
+                    "type": "string",
+                    "example": "[{\"pid\":\"img1\",\"url\":\"public_id1\"}]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Design updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "product": {
+                      "$ref": "#/components/schemas/Design"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Design not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/designer/{designercode}": {
+      "get": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Get all designs by a specific designer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "designercode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Designer code"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 5
+            },
+            "description": "Number of designs to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Designs retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Design"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No products found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/{prodId}/click": {
+      "patch": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Update the click count for a design",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "prodId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Click count updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/popular": {
+      "get": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Get the most popular designs (with clicks >= average)",
+        "responses": {
+          "200": {
+            "description": "Popular designs retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Design"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/{prodId}": {
+      "delete": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Delete a design product",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "prodId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Design deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/by-id/{id}": {
+      "get": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Get a specific design by ID with all relations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Design ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Design retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Design"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing ID"
+          },
+          "404": {
+            "description": "Design not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/designs/category/{catalias}": {
+      "get": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Get all designs in a specific category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "catalias",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Category alias"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Designs retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Design"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing category alias"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/users/auth/profile/{id}": {
       "get": {
         "tags": [
