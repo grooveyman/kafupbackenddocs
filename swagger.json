@@ -141,7 +141,7 @@
         }
       }
     },
-    "/api/v1/designs": {
+    "/api/v1/designs/product": {
       "post": {
         "tags": [
           "Designs"
@@ -237,7 +237,7 @@
         }
       }
     },
-    "/api/v1/designs/{id}": {
+    "/api/v1/designs/product/{id}": {
       "put": {
         "tags": [
           "Designs"
@@ -334,9 +334,47 @@
             "description": "Internal server error"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Designs"
+        ],
+        "description": "Get a specific design by ID with all relations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Design ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Design retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Design"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing ID"
+          },
+          "404": {
+            "description": "Design not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
       }
     },
-    "/api/v1/designs/designer/{designercode}": {
+    "/api/v1/designs/{designercode}": {
       "get": {
         "tags": [
           "Designs"
@@ -385,7 +423,7 @@
         }
       }
     },
-    "/api/v1/designs/{prodId}/click": {
+    "/api/v1/designs/productClick/{prodId}": {
       "patch": {
         "tags": [
           "Designs"
@@ -430,7 +468,7 @@
         }
       }
     },
-    "/api/v1/designs/popular": {
+    "/api/v1/designs/popularProducts": {
       "get": {
         "tags": [
           "Designs"
@@ -456,7 +494,7 @@
         }
       }
     },
-    "/api/v1/designs/{prodId}": {
+    "/api/v1/designs/del/{prodId}": {
       "delete": {
         "tags": [
           "Designs"
@@ -498,47 +536,7 @@
         }
       }
     },
-    "/api/v1/designs/by-id/{id}": {
-      "get": {
-        "tags": [
-          "Designs"
-        ],
-        "description": "Get a specific design by ID with all relations",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Design ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Design retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Design"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - missing ID"
-          },
-          "404": {
-            "description": "Design not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/designs/category/{catalias}": {
+    "/api/v1/designs/catproduct/{catalias}": {
       "get": {
         "tags": [
           "Designs"
