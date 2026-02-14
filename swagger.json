@@ -578,7 +578,7 @@
         }
       }
     },
-    "/api/v1/orders": {
+    "/api/v1/orders/processOrder": {
       "post": {
         "tags": [
           "Orders"
