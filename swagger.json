@@ -578,6 +578,131 @@
         }
       }
     },
+    "/api/v1/orders": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Create a new order and initialize payment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cust_001"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "customer@example.com"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "example": "John"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "example": "Doe"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "+233245678901"
+                      },
+                      "address": {
+                        "type": "string",
+                        "example": "123 Main Street"
+                      },
+                      "city": {
+                        "type": "string",
+                        "example": "Accra"
+                      },
+                      "region": {
+                        "type": "string",
+                        "example": "Greater Accra"
+                      }
+                    }
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "designId": {
+                          "type": "string",
+                          "example": "DSG001"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "size": {
+                          "type": "string",
+                          "example": "M"
+                        },
+                        "color": {
+                          "type": "string",
+                          "example": "red"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 150.5
+                        }
+                      }
+                    }
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 301
+                  }
+                },
+                "required": [
+                  "customer",
+                  "items",
+                  "total"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order created successfully and payment initialized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    },
+                    "access_code": {
+                      "type": "string",
+                      "description": "Payment access code for Paystack"
+                    },
+                    "reference": {
+                      "type": "string",
+                      "description": "Payment reference for Paystack"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - validation error"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/users/auth/profile/{id}": {
       "get": {
         "tags": [
