@@ -1186,6 +1186,79 @@
         }
       }
     },
+    "/api/v1/orders/{designer_code}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Get all orders for a specific designer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "designer_code",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "DES001"
+            },
+            "description": "Designer code to retrieve orders for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all orders for the designer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - designer code is required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/auth/profile/{id}": {
       "get": {
         "tags": [
